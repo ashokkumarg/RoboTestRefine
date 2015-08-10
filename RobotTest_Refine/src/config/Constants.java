@@ -4,8 +4,11 @@ package config;
 
 public class Constants {
 
-	public static final String fileDefPath="D:\\MyWorkspace\\RobotTest_Refine\\src\\dataEngine\\";
-	public static final String fileDataPath="D:\\MyWorkspace\\RobotTest_Refine\\src\\dataEngine\\";
+	
+	public static final String fileDefPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\";
+	public static final String fileDataPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\";
+	/*public static final String fileDefPath="D:\\MyWorkspace\\RobotTest_Refine\\src\\dataEngine\\";
+	public static final String fileDataPath="D:\\MyWorkspace\\RobotTest_Refine\\src\\dataEngine\\";*/
 	public static final String executionSheet="Execution_Config";
 	public static final String testSheetName="TestCase";
 	public static final String metadataFileName="AutoInsurance_Metadata.xls";
@@ -28,7 +31,7 @@ public class Constants {
 	public static String testData;
 	
 	/*******************************Android_iOS_Comparison***********************************/
-	public static String mismatchedPath= "D:\\MyWorkspace\\RobotTest_Refine\\src\\comparison_output\\";
+	public static String mismatchedPath= "C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\comparison_output\\";
     
 	public static String androidFileName="DemoTestcaseAndData_Android.xls";
 	public static String iosFileName="DemoTestcaseAndData_iOS.xls";

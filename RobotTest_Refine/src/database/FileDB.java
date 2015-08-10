@@ -21,23 +21,35 @@ public class FileDB {
  
  public static void main(String[] args) throws SQLException, ClassNotFoundException, FileNotFoundException {
 
-	Class.forName(DB_Constants.JDBC_DRIVER);
-    System.out.println("Connecting to a selected database...");
-    conn = DriverManager.getConnection(DB_Constants.DB_URL,DB_Constants.USER,DB_Constants.PASS);
-    System.out.println("Connected to the database successfully...");
+	//Connection to database
+	dBconnection();
     //insert();
+    System.out.println("Record inserted successfully");
     download();
 }
  
- public static void download(){
+ private static void dBconnection() throws SQLException, ClassNotFoundException{
+	
+	Class.forName(DB_Constants.JDBC_DRIVER);
+    System.out.println("Connecting to a selected database...");
+    
+    conn = DriverManager.getConnection(DB_Constants.DB_URL,DB_Constants.USER,DB_Constants.PASS);
+    
+    System.out.println("Connected to the database successfully..."); 
+ }
+ 
+ 
+ private static void download(){
 	 
 	 try{
 
 		System.out.println("Downloading the excel files from the database...\n");
-	    stmt = conn.createStatement();
+	    //Creating the object for statement for sending the sql statements to the dB
+		//stmt = conn.createStatement();
 	    
 	    String sql = "SELECT * FROM testdetails WHERE status='New' ORDER BY testID ASC";
 	    
+	    //Creating the object for prepared statement for sending the parameterized sql statements to the dB
 		pstmt = conn.prepareStatement(sql);
 		ResultSet result = pstmt.executeQuery();
 		
@@ -52,14 +64,12 @@ public class FileDB {
 			
 			InputStream metaInStream = metablob.getBinaryStream();
 			InputStream testInStream = testdatablob.getBinaryStream();
-			
 	
-			
-			File dir = new File("D:\\MyWorkspace\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID);
+			File dir = new File("C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID);
 			dir.mkdirs();
 			
-			String fileDefPath = "D:\\MyWorkspace\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\AutoInsurance_Metadata_"+DB_Constants.testID+".xls";
-			String fileDataPath= "D:\\MyWorkspace\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\AutoInusrance_Testcase_Testdata_"+DB_Constants.testID+".xls";
+			String fileDefPath = "C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\AutoInsurance_Metadata_"+DB_Constants.testID+".xls";
+			String fileDataPath= "C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\AutoInusrance_Testcase_Testdata_"+DB_Constants.testID+".xls";
 			
 			OutputStream metaOutStream = new FileOutputStream(fileDefPath);
 			OutputStream testOutStream = new FileOutputStream(fileDataPath);
@@ -103,13 +113,13 @@ public class FileDB {
 		 }
 		 finally{
 		    //finally block used to close resources
-		    try{
+		   /* try{
 		       if(stmt!=null)
 		          conn.close();
 		    }
 		    catch(SQLException se){
 		    	se.printStackTrace();
-		    }
+		    }*/
 		    try
 		    {
 		       if(conn!=null)
@@ -131,7 +141,7 @@ private static void upload(int testID) throws SQLException{
 	    
 	    //Upload the file and change the status
 	    
- 		String testcasedata="D:\\MyWorkspace\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+testID+"\\AutoInusrance_Testcase_Testdata_"+DB_Constants.testID+".xls";
+ 		String testcasedata="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+testID+"\\AutoInusrance_Testcase_Testdata_"+DB_Constants.testID+".xls";
  		
  		String update ="UPDATE testdetails SET testresults=?,status=? WHERE testID="+testID;
  		
@@ -153,9 +163,9 @@ private static void upload(int testID) throws SQLException{
 
 private static void insert() throws SQLException, FileNotFoundException {
 	// TODO Auto-generated method stub
-	
+	try{
 	stmt=conn.createStatement();
-	for(int i=21;i<=25;i++){
+	for(int i=29;i<=30;i++){
 		
 		String insert= "INSERT INTO testdetails (testID,metadata,testcasendata,status) VALUES (?,?,?,?)";
 		PreparedStatement statement = conn.prepareStatement(insert);
@@ -170,10 +180,23 @@ private static void insert() throws SQLException, FileNotFoundException {
 		statement.setString(4,"New");
 		statement.executeUpdate();
 		
-		System.out.println("Record inserted successfully");
 		}
 	}
- }
+	catch(Exception ex){
+		ex.printStackTrace();
+	}
+	finally{
+		try
+	    {
+	       if(conn!=null)
+	          conn.close();
+	    }
+	    catch(SQLException se){
+	       se.printStackTrace();
+	    }
+	}
+	}
+}
 
 
 

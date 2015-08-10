@@ -50,7 +50,7 @@ public class AppiumConfiguration {
 	    executor.setExitValue(1);
 	    executor.execute(command, resultHandler);
 	    
-	    Thread.sleep(15000);
+	    Thread.sleep(25000);
 	    
 	    System.out.println("Appium settings completed and ready to launch!");
 	    String platform= ExcelUtils.readExcel(Constants.fileDefPath,Constants.metadataFileName,Constants.executionSheet,1,8); 
@@ -96,7 +96,7 @@ public static  void stopAppiumServer() throws IOException, Exception {
 	    DefaultExecutor executor = new DefaultExecutor();  
 	    executor.setExitValue(1);  
 	    executor.execute(command, resultHandler);
-	    Thread.sleep(5000);
+	    Thread.sleep(10000);
 	    
 	}
 }
