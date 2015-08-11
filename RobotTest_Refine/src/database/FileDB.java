@@ -16,8 +16,16 @@ import appium.AppiumConfiguration;
 public class FileDB {
 
  private static Connection conn = null;
- private static Statement stmt = null;
+ 
  private static PreparedStatement pstmt =null;
+ 
+ public static String fileDefPath=null;
+ public static String fileDataPath=null;
+ 
+ public static String fileDefFullPath=null;
+ public static String fileDataFullPath=null;
+ public static String metadataFileName=null;
+ public static String testdataFileName=null;
  
  public static void main(String[] args) throws SQLException, ClassNotFoundException, FileNotFoundException {
 
@@ -67,22 +75,29 @@ public class FileDB {
 	
 			File dir = new File("C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID);
 			dir.mkdirs();
+			//Validate .xls or .xlsx (Need to work on)
+			metadataFileName="Metadata"+DB_Constants.testID+".xls";
+			testdataFileName="Testdata"+DB_Constants.testID+".xls";
 			
-			String fileDefPath = "C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\AutoInsurance_Metadata_"+DB_Constants.testID+".xls";
-			String fileDataPath= "C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\AutoInusrance_Testcase_Testdata_"+DB_Constants.testID+".xls";
+			fileDefPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\";
+			fileDataPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\";
 			
-			OutputStream metaOutStream = new FileOutputStream(fileDefPath);
-			OutputStream testOutStream = new FileOutputStream(fileDataPath);
+			 fileDefFullPath = fileDefPath+metadataFileName;
+			 fileDataFullPath= fileDataPath+testdataFileName;
+			
+			OutputStream metaOutStream = new FileOutputStream(fileDefFullPath);
+			OutputStream testOutStream = new FileOutputStream(fileDataFullPath);
 			
 			int bytesRead = -1;
 			byte[] metaBuffer = new byte[DB_Constants.META_BUFFER_SIZE];
 			byte[] testBuffer = new byte[DB_Constants.TEST_BUFFER_SIZE];
 			
-			//Metadata
+			//Reads the Metadata file until it is having the data
 			while ((bytesRead = metaInStream.read(metaBuffer)) != -1) {
+				//Write the metadata file
 				metaOutStream.write(metaBuffer, 0, bytesRead);
 			}
-			//Testcase data
+			//Reads the Testcase data file until it is having the data
 			while ((bytesRead = testInStream.read(testBuffer)) != -1) {
 				testOutStream.write(testBuffer, 0, bytesRead);	
 			}
@@ -98,7 +113,7 @@ public class FileDB {
 			
 			AppiumConfiguration.stopAppiumServer();
 			System.out.println("Appium server is starting");
-			AppiumConfiguration.appiumstartup();
+			AppiumConfiguration.appiumstartup(metadataFileName,testdataFileName,fileDefPath,fileDataPath);
 			upload(DB_Constants.testID);
 			AppiumConfiguration.stopAppiumServer();
 			}  
@@ -113,13 +128,6 @@ public class FileDB {
 		 }
 		 finally{
 		    //finally block used to close resources
-		   /* try{
-		       if(stmt!=null)
-		          conn.close();
-		    }
-		    catch(SQLException se){
-		    	se.printStackTrace();
-		    }*/
 		    try
 		    {
 		       if(conn!=null)
@@ -137,11 +145,11 @@ private static void upload(int testID) throws SQLException{
 		
 	try{
 		System.out.println("Uploading the completed excel file into database\n");
-	    stmt = conn.createStatement();
+	    
 	    
 	    //Upload the file and change the status
 	    
- 		String testcasedata="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+testID+"\\AutoInusrance_Testcase_Testdata_"+DB_Constants.testID+".xls";
+ 		String testcasedata="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+testID+"\\"+testdataFileName+".xls";
  		
  		String update ="UPDATE testdetails SET testresults=?,status=? WHERE testID="+testID;
  		
@@ -164,7 +172,7 @@ private static void upload(int testID) throws SQLException{
 private static void insert() throws SQLException, FileNotFoundException {
 	// TODO Auto-generated method stub
 	try{
-	stmt=conn.createStatement();
+	
 	for(int i=29;i<=30;i++){
 		
 		String insert= "INSERT INTO testdetails (testID,metadata,testcasendata,status) VALUES (?,?,?,?)";

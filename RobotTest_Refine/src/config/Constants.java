@@ -1,21 +1,19 @@
 package config;
 
+import database.FileDB;
+
 /***Constant class contains the variables which is used throughout the project**/
 
 public class Constants {
 
-	
-	public static final String fileDefPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\";
-	public static final String fileDataPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\";
 	/*public static final String fileDefPath="D:\\MyWorkspace\\RobotTest_Refine\\src\\dataEngine\\";
 	public static final String fileDataPath="D:\\MyWorkspace\\RobotTest_Refine\\src\\dataEngine\\";*/
 	public static final String executionSheet="Execution_Config";
 	public static final String testSheetName="TestCase";
-	public static final String metadataFileName="AutoInsurance_Metadata.xls";
-	public static final String testdataFileName="AutoInusrance_Testcase_Testdata.xls";
 	
-	public static final String metadata = fileDefPath+metadataFileName;
-	public static final String testdata = fileDataPath+testdataFileName;
+	
+	public static final String metadata = FileDB.fileDefPath+FileDB.metadataFileName;
+	public static final String testdata = FileDB.fileDataPath+FileDB.testdataFileName;
 	
 	public static String testCaseId;
 	public static String testCaseFlow;
@@ -31,7 +29,7 @@ public class Constants {
 	public static String testData;
 	
 	/*******************************Android_iOS_Comparison***********************************/
-	public static String mismatchedPath= "C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\comparison_output\\";
+	public static String mismatchedPath= "C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\Comparison_Output\\";
     
 	public static String androidFileName="DemoTestcaseAndData_Android.xls";
 	public static String iosFileName="DemoTestcaseAndData_iOS.xls";

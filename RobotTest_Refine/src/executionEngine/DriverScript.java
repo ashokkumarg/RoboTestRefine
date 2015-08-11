@@ -25,12 +25,19 @@ public class DriverScript{
 
 	public static void main(String[] args) throws IOException, Exception {
 		// TODO Auto-generated method stub
+		
+		String fileDefPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\";
+		String fileDataPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\";
+		String metadata="AutoInsurance_Metadata.xls";
+		String testdata="AutoInusrance_Testcase_Testdata.xls";
+		
 		AppiumConfiguration.stopAppiumServer();
 		System.out.println("Appium server is starting");
-		AppiumConfiguration.appiumstartup();
+		
+		AppiumConfiguration.appiumstartup(metadata,testdata,fileDefPath,fileDataPath);
 	}
 	
-	public static void testExecutor(int testID,String fileDefPath,String metaFileName,String fileDataPath, String testFileName,AndroidDriver driver ) throws InterruptedException, Exception{
+	public static void testExecutor(String fileDefPath,String metaFileName,String fileDataPath, String testFileName,AndroidDriver driver ) throws InterruptedException, Exception{
 		System.out.println("Test case is started Running");
 		Logger log = Logger.getLogger("devpinoyLogger");
 		log.info("Test case is started Running");
