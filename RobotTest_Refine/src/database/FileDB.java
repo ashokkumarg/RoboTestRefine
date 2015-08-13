@@ -24,6 +24,7 @@ public class FileDB {
  
  public static String fileDefFullPath=null;
  public static String fileDataFullPath=null;
+ 
  public static String metadataFileName=null;
  public static String testdataFileName=null;
  
@@ -31,12 +32,10 @@ public class FileDB {
 
 	//Connection to database
 	dBconnection();
-    //insert();
-    System.out.println("Record inserted successfully");
-    download();
+    excelDownload();
 }
  
- private static void dBconnection() throws SQLException, ClassNotFoundException{
+ protected static void dBconnection() throws SQLException, ClassNotFoundException{
 	
 	Class.forName(DB_Constants.JDBC_DRIVER);
     System.out.println("Connecting to a selected database...");
@@ -47,7 +46,7 @@ public class FileDB {
  }
  
  
- private static void download(){
+ private static void excelDownload(){
 	 
 	 try{
 
@@ -114,7 +113,7 @@ public class FileDB {
 			AppiumConfiguration.stopAppiumServer();
 			System.out.println("Appium server is starting");
 			AppiumConfiguration.appiumstartup(metadataFileName,testdataFileName,fileDefPath,fileDataPath);
-			upload(DB_Constants.testID);
+			excelUpload(DB_Constants.testID);
 			AppiumConfiguration.stopAppiumServer();
 			}  
 		}
@@ -140,69 +139,28 @@ public class FileDB {
 	 	System.out.println("\nConnection Closed!");
 	 }
  
-/*This method is used to Upload the table records in database**/
-private static void upload(int testID) throws SQLException{
+
+ 
+ /*This method is used to Upload the table records in database**/
+private static void excelUpload(int testID) throws SQLException{
 		
 	try{
 		System.out.println("Uploading the completed excel file into database\n");
-	    
-	    
-	    //Upload the file and change the status
-	    
- 		String testcasedata="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+testID+"\\"+testdataFileName+".xls";
- 		
+		
+		//Upload the file and change the status
+ 		String testcasedata="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+testID+"\\"+testdataFileName;
  		String update ="UPDATE testdetails SET testresults=?,status=? WHERE testID="+testID;
  		
  		pstmt = conn.prepareStatement(update);
- 		
  		InputStream testcaseStream = new FileInputStream(new File(testcasedata));
  		
  		pstmt.setBlob(1,testcaseStream);
  		pstmt.setString(2,"Completed");
- 		
  		pstmt.executeUpdate();
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
-	}
-
-
-
-private static void insert() throws SQLException, FileNotFoundException {
-	// TODO Auto-generated method stub
-	try{
-	
-	for(int i=29;i<=30;i++){
-		
-		String insert= "INSERT INTO testdetails (testID,metadata,testcasendata,status) VALUES (?,?,?,?)";
-		PreparedStatement statement = conn.prepareStatement(insert);
-		
-		statement.setInt(1,i);
-		InputStream metadataStream = new FileInputStream(new File(Constants.metadata));
-		InputStream testcaseStream = new FileInputStream(new File(Constants.testdata));
-		
-		statement.setBlob(2,metadataStream);
-		statement.setBlob(3,testcaseStream);
-		
-		statement.setString(4,"New");
-		statement.executeUpdate();
-		
-		}
-	}
-	catch(Exception ex){
-		ex.printStackTrace();
-	}
-	finally{
-		try
-	    {
-	       if(conn!=null)
-	          conn.close();
-	    }
-	    catch(SQLException se){
-	       se.printStackTrace();
-	    }
-	}
 	}
 }
 

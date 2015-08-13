@@ -7,9 +7,11 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.bcel.classfile.Constant;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
@@ -18,8 +20,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.github.genium_framework.appium.support.server.AppiumServer;
+import com.github.genium_framework.server.ServerArguments;
+
 import config.Constants;
-import database.FileDB;
 import executionEngine.DriverScript;
 import utility.ExcelUtils;
 
@@ -29,11 +33,13 @@ import utility.ExcelUtils;
  */
 public class AppiumConfiguration {
 
-	public static WebDriver driver;	
+	public static WebDriver driver;
+	
 	static int testID=0;
 	
 	public static void appiumstartup(String metadataFileName,String testdataFileName,String fileDefPath,String fileDataPath) throws IOException, Exception{
 
+		
 		CommandLine command = new CommandLine("cmd");
 	    command.addArgument("/c");
 	    command.addArgument(Constants.appiumNode);
@@ -55,7 +61,7 @@ public class AppiumConfiguration {
 	    
 	    System.out.println("Appium settings completed and ready to launch!");
 	    String platform= ExcelUtils.readExcel(fileDefPath,metadataFileName,Constants.executionSheet,1,8); 
-	    
+	    Thread.sleep(15000);
 		//Desired capabilities setup for Android
 		if(platform.equals("Android")){
 			System.out.println("Android Desired Capabilities Setup is loading...");
@@ -67,7 +73,7 @@ public class AppiumConfiguration {
 			androidCapabilities.setCapability(MobileCapabilityType.APP,ExcelUtils.readExcel(fileDefPath,metadataFileName,Constants.executionSheet,10,2));
 			driver = new AndroidDriver(new URL(ExcelUtils.readExcel(fileDefPath,metadataFileName,Constants.executionSheet,11,2)), androidCapabilities);	
 			System.out.println("Appium SetUp for Android is successful and Appium Driver is launched successfully");
-			Thread.sleep(30000);
+			Thread.sleep(15000);
 			DriverScript.testExecutor(fileDefPath, metadataFileName,fileDataPath,testdataFileName,(AndroidDriver)driver);
 		}
 		
@@ -82,8 +88,9 @@ public class AppiumConfiguration {
 			driver = new IOSDriver(new URL(ExcelUtils.readExcel(fileDefPath,metadataFileName,Constants.executionSheet,11,3)), iosCapabilities);
 			
 			System.out.println("Appium SetUp for iOS is successful and Appium Driver is launched successfully");
-			Thread.sleep(30000);
-			//DriverScript.testExecutor(testID, fileDefPath, FileDB.fileDataPath,driver);
+			Thread.sleep(15000);
+			DriverScript.testExecutor(fileDefPath, metadataFileName,fileDataPath,testdataFileName,(IOSDriver)driver);
+
 		}
 	}
 	
@@ -97,7 +104,7 @@ public static  void stopAppiumServer() throws IOException, Exception {
 	    DefaultExecutor executor = new DefaultExecutor();  
 	    executor.setExitValue(1);  
 	    executor.execute(command, resultHandler);
-	    Thread.sleep(10000);
+	    Thread.sleep(5000);
 	    
 	}
 }

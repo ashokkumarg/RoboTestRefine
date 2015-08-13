@@ -15,5 +15,5 @@ public class DB_Constants {
 	 public static final int META_BUFFER_SIZE = 4096;
 	 public static final int TEST_BUFFER_SIZE = 4096;
 	 
-	 public static int testID=0;
+	 public static int testID;
 }

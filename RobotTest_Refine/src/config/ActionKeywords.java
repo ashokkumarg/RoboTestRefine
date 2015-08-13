@@ -3,8 +3,6 @@
  */
 package config;
 
-import io.appium.java_client.android.AndroidDriver;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,19 +15,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import database.FileDB;
 import utility.ExcelUtils;
 
 /**
  * @author ashokkumarg
  *
  */
-
 public class ActionKeywords {
 
 	public static WebElement element = null;
 	
-	public static void enterText(String ElementID,String data, String xpath, AndroidDriver driver) throws InterruptedException
+	public static void enterText(String ElementID,String data, String xpath,String metadataFileName, String fileDefPath, WebDriver driver) throws InterruptedException
 	{
 		try
 		{
@@ -48,7 +44,7 @@ public class ActionKeywords {
 	}
 	
 	//For clicking the button
-	public static void clickOnButton(String ElementID, String xpath, WebDriver driver)
+	public static void clickOnButton(String ElementID, String data,String xpath,String metadataFileName, String fileDefPath, WebDriver driver)
 	{
 		try
 		{
@@ -73,11 +69,9 @@ public class ActionKeywords {
 	public static WebElement btnCancel(WebDriver driver){
 		element = driver.findElement(By.id("com.htcindia.autoinsurance:id/textView1"));		
 		return element;
- 
     }
 
 	public static WebElement popOverbtnOK(WebDriver driver){
-	 
 		element = driver.findElement(By.id("android:id/button1"));
 	 	return element;
 	}
@@ -131,16 +125,16 @@ public class ActionKeywords {
 		js.executeScript("mobile: tap", tapObject);	
 	}
 	
-	public static void calendar(WebDriver driver) throws Exception{
-		String calendar= ExcelUtils.readExcel(FileDB.fileDefPath,FileDB.metadataFileName,Constants.executionSheet,1,8); 
+	public static void calendar(String ElementID, String data,String xpath,String fileDefPath, String metaDataFileName, WebDriver driver) throws Exception{
+		String calendar= ExcelUtils.readExcel(fileDefPath,metaDataFileName,Constants.executionSheet,1,8); 
 		
 		if(calendar.equals("Android")){
-			int YEAR=Integer.parseInt(Constants.testData);
+			int YEAR=Integer.parseInt(data);
 			System.out.println("YEAR value is"+YEAR);
 			ActionKeywords.calendarAndroid(01,03,YEAR,driver);
 		}
 		else if(calendar.equals("I")){
-			int YEAR=Integer.parseInt(Constants.testData);
+			int YEAR=Integer.parseInt(data);
 			System.out.println("YEAR value is"+YEAR);
 			ActionKeywords.calendarios(01,"May",YEAR,driver);
 		}
