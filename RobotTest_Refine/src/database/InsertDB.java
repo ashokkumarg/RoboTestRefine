@@ -8,8 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class InsertDB {
-
-	private static Connection conn = null;
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
@@ -17,12 +15,14 @@ public class InsertDB {
 		// TODO Auto-generated method stub
 		try{
 			
-			for(int i=41;i<=50;i++){
+			for(int i=51;i<=52;i++){
 				
 				String insert= "INSERT INTO testdetails (testID,metadata,testcasendata,status) VALUES (?,?,?,?)";
-				PreparedStatement statement = conn.prepareStatement(insert);
+				PreparedStatement statement = FileDB.conn.prepareStatement(insert);
+				
 				String metadata="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\AutoInsurance_Metadata.xls";
 				String testdata="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\src\\dataEngine\\AutoInusrance_Testcase_Testdata.xls";
+				//String testdata="https://s3-ap-southeast-1.amazonaws.com/exotelrecordings/htcindia/abd0b236b23da81da414ab46cfaffbcc.mp3 ";
 				statement.setInt(1,i);
 				InputStream metadataStream = new FileInputStream(new File(metadata));
 				InputStream testcaseStream = new FileInputStream(new File(testdata));
@@ -41,8 +41,8 @@ public class InsertDB {
 			finally{
 				try
 			    {
-			       if(conn!=null)
-			          conn.close();
+			       if(FileDB.conn!=null)
+			          FileDB.conn.close();
 			    }
 			    catch(SQLException se){
 			       se.printStackTrace();

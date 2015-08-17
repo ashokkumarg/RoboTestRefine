@@ -15,7 +15,7 @@ import appium.AppiumConfiguration;
 
 public class FileDB {
 
- private static Connection conn = null;
+ public static Connection conn = null;
  
  private static PreparedStatement pstmt =null;
  
@@ -110,11 +110,9 @@ public class FileDB {
 			System.out.println("The metadata and testdata files are downloaded!");	
 			Thread.sleep(5000);
 			
-			AppiumConfiguration.stopAppiumServer();
 			System.out.println("Appium server is starting");
 			AppiumConfiguration.appiumstartup(metadataFileName,testdataFileName,fileDefPath,fileDataPath);
 			excelUpload(DB_Constants.testID);
-			AppiumConfiguration.stopAppiumServer();
 			}  
 		}
 		 catch(SQLException se){

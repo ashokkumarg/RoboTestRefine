@@ -33,7 +33,6 @@ public class DriverScript{
 		String metaFileName="AutoInsurance_Metadata.xls";
 		String testFileName="AutoInusrance_Testcase_Testdata.xls";
 		
-		AppiumConfiguration.stopAppiumServer();
 		Thread.sleep(5000);
 		System.out.println("Appium server is starting");
 		AppiumConfiguration.appiumstartup(metaFileName,testFileName,fileDefPath,fileDataPath);
