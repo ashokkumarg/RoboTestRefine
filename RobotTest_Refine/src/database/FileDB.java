@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.*;
 
-import config.Constants;
 import config.DB_Constants;
 import appium.AppiumConfiguration;
 
@@ -81,8 +80,8 @@ public class FileDB {
 			fileDefPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\";
 			fileDataPath="C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\DB_downloadfiles\\ExecutableFiles_"+DB_Constants.testID+"\\";
 			
-			 fileDefFullPath = fileDefPath+metadataFileName;
-			 fileDataFullPath= fileDataPath+testdataFileName;
+			fileDefFullPath = fileDefPath+metadataFileName;
+			fileDataFullPath= fileDataPath+testdataFileName;
 			
 			OutputStream metaOutStream = new FileOutputStream(fileDefFullPath);
 			OutputStream testOutStream = new FileOutputStream(fileDataFullPath);

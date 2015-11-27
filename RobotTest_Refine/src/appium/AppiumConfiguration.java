@@ -11,14 +11,15 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import org.apache.bcel.classfile.Constant;
+/*import org.apache.bcel.classfile.Constant;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.ExecuteException;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.apache.commons.exec.ExecuteException;*/
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+
 
 import com.github.genium_framework.appium.support.server.AppiumServer;
 import com.github.genium_framework.server.ServerArguments;
@@ -42,7 +43,7 @@ public class AppiumConfiguration {
 			throws IOException, Exception {
 
 		
-		 File file = new File("D:/programfiles");
+		 File file = new File("D:/programfiles");// Appium path
 		 
 		 ServerArguments serverArguments = new ServerArguments();
 		 
@@ -108,6 +109,4 @@ public class AppiumConfiguration {
 
 		}
 	}
-
-
 }

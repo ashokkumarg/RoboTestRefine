@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 import org.apache.commons.io.FileUtils;
+
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -95,7 +96,7 @@ public class DriverScript{
 								ActionKeywords.cancelCheck(driver);	
 							}
 							else{
-								int rowsNum=ExcelUtils.getNumberOfRows(fileDataPath,testFileName,Constants.screenName+"Data");
+						 		int rowsNum=ExcelUtils.getNumberOfRows(fileDataPath,testFileName,Constants.screenName+"Data");
 								System.out.println(rowsNum);
 								int defRowsNum=ExcelUtils.getNumberOfRows(fileDefPath,metaFileName,Constants.screenName+"Def");					
 							
@@ -123,7 +124,7 @@ public class DriverScript{
 											
 												for(int m=1;m<=defRowsNum;m++){
 													vars=ExcelUtils.readExcel(fileDefPath,metaFileName,Constants.screenName+"Def", m,0);
-												
+												System.out.println(fieldName+"==="+vars);
 													if(fieldName.equalsIgnoreCase(vars)){
 														fieldId=ExcelUtils.readExcel(fileDefPath,metaFileName,Constants.screenName+"Def",m,2);
 														Constants.action=ExcelUtils.readExcel(fileDefPath,metaFileName,Constants.screenName+"Def", m, 1);
@@ -144,7 +145,8 @@ public class DriverScript{
 															if(arrayMethod[z].getName().equals(type)){
 																
 																System.out.println(arrayMethod[z].getName());
-																arrayMethod[z].invoke(actionKeywords,fieldId,testData,xpath,fileDefPath,metaFileName,driver);
+																Object value= arrayMethod[z].invoke(actionKeywords,fieldId,testData,xpath,fileDefPath,metaFileName,driver);
+																System.out.println(value);
 																//Once any method is executed, this break statement will take the flow outside of for loop
 																break;
 																}
@@ -188,7 +190,8 @@ public class DriverScript{
 							
 							String fileName= "C:\\Users\\ashokkumarg\\Documents\\GitHub\\RobotTest_Refine\\RobotTest_Refine\\Failure_rec_screenshot\\ScreenshotFiles_"+DB_Constants.testID+"\\"+Constants.testCaseId+".jpg";
 							FileUtils.copyFile(file, new File(fileName));
-							WebElement E = driver.findElement(By.id("android:id/message"));			
+							WebElement E = driver.findElement(By.id("android:id/message"));		
+							
 							ExcelUtils.writeExcel(fileDataPath,testFileName,Constants.testSheetName,E.getText(),i,4);
 							ExcelUtils.writeExcel(fileDataPath,testFileName,Constants.testSheetName,Constants.screenName+"Data",i,7);
 						} catch (Exception e1) {
@@ -217,5 +220,7 @@ public class DriverScript{
 					ExcelUtils.writeExcel(fileDataPath,testFileName,Constants.testSheetName,"SKIPPED",i,6);	
 				}
 			}
-	}	
+	}
+	
+
 }

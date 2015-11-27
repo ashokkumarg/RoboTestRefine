@@ -65,7 +65,48 @@ public class ActionKeywords {
 			}
 		}
 	}
-
+	//Verify the element is present or not.
+	public static boolean verifyElement(String ElementID, String data,String xpath,String metadataFileName, String fileDefPath, WebDriver driver){
+		
+		boolean element=false;
+		try{
+			
+			if(driver.findElements(By.id(ElementID)).size() != 0){
+				WebElement E = driver.findElement(By.id(ElementID));
+				E.isDisplayed();
+				System.out.println("Element is verified");
+				element= true;
+			}
+			else{
+				System.out.println("Element not found on the screen");
+				element=false;
+			}
+		}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		return element;
+	}
+	
+	//Get the text from the field/alert
+	public static String getText(String ElementID, String data,String xpath,String metadataFileName, String fileDefPath, WebDriver driver){
+		String message=null;
+		try{
+			
+			if(driver.findElements(By.id(ElementID)).size() != 0){
+				WebElement E = driver.findElement(By.id(ElementID));
+				message=E.getText();
+			}
+			else{
+				message="No element found on the screen";
+			}
+		}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		return message;
+	}
+	
 	public static WebElement btnCancel(WebDriver driver){
 		element = driver.findElement(By.id("com.htcindia.autoinsurance:id/textView1"));		
 		return element;
@@ -272,4 +313,5 @@ e=driver.findElement(By.xpath("//android.widget.ImageButton[@content-desc='Decre
         }
         return calPick;
     }	
+    
 }
